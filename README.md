@@ -66,12 +66,26 @@ HF_token=your_huggingface_token
 ---
 
 ## 📸 Screenshots
+### Login Page
+![Login](screenshots/login.png)
 
-Example:
+### Register Page
+![Register](screenshots/register.png)
 
-```md
+### Home Page
+![Home](screenshots/home.png)
 
-```
+### Audio Upload Page
+![Audio Upload](screenshots/audioupload.png)
+
+### Meeting details Page
+![Meeting Details](screenshots/meetingdetails.png)
+
+### Transcript and Generate Page
+![Transcript](screenshots/transcript.png)
+
+### Structured Meeting Minutes 
+![Meeting Minutes](screenshots/meetingminutes.png)
 
 ---
 
