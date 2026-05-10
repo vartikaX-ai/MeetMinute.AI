@@ -85,7 +85,7 @@ HF_token=your_huggingface_token
 ![Transcript](screenshots/transcript.png)
 
 ### Structured Meeting Minutes 
-![Meeting Minutes](screenshots/meetingminutes.png)
+![Meeting Minutes](screenshots/structuredmeetingminutes.png)
 
 ---
 
