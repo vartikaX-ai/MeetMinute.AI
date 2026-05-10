@@ -1,0 +1,9 @@
+faster-whisper
+pyannote.audio=4.0.0
+spacy
+groq
+flask
+reportlab
+pandas
+python-dotenv
+torch

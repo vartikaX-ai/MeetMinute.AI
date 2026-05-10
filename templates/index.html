@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeetMinute.ai</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="light-mode">
+    <!-- LOGIN OVERLAY -->
+<div id="login-overlay" class="login-overlay">
+    <div class="login-card">
+        <div class="login-logo">MeetMinute.ai</div>
+
+        <!-- Login Form -->
+        <div id="login-form-wrapper" style="width:100%; display:flex; flex-direction:column; align-items:center; gap:24px;">
+            <div>
+                <h1 style="text-align:center;">Welcome back</h1>
+                
+            </div>
+            <div class="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" placeholder="••••••••">
+                </div>
+                <p class="login-error" id="login-error"></p>
+                <button class="primary-btn" id="login-btn">Sign In</button>
+            </div>
+            <p class="login-toggle">Don't have an account? <span id="go-register">Sign up</span></p>
+        </div>
+
+        <!-- Register Form -->
+        <div id="register-form-wrapper" style="width:100%; display:none; flex-direction:column; align-items:center; gap:24px;">
+            <div>
+                <h1 style="text-align:center;">Create account</h1>
+            </div>
+            <div class="login-form">
+                <div class="form-group">
+                    <label for="reg-name">Full Name</label>
+                    <input type="text" id="reg-name" placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="reg-email">Email</label>
+                    <input type="email" id="reg-email" placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="reg-password">Password</label>
+                    <input type="password" id="reg-password" placeholder="••••••••">
+                </div>
+                <p class="login-error" id="register-error">Please fill in all fields correctly.</p>
+                <button class="primary-btn" id="register-btn">Create Account</button>
+            </div>
+            <p class="login-toggle">Already have an account? <span id="go-login">Sign in</span></p>
+        </div>
+    </div>
+</div>
+    <div id="app" class="app-container">
+        <aside class="sidebar">
+            <nav>
+                <button class="nav-btn active" data-screen="home" title="Home">
+                    <!-- home icon -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 9L12 2L21 9V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9 21V12H15V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <button class="nav-btn" data-screen="history" title="History">
+                    <!-- history icon -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M3 3V10H10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M21 21V14H14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="12" cy="12" r="7" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </button>
+                <button class="nav-btn" data-screen="profile" title="Profile">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/>
+                        <path d="M4 20C4 16 8 14 12 14C16 14 20 16 20 20" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </button>
+            </nav>
+                <div class="bottom-nav">
+                    <div class="divider"></div>
+                    <button id="theme-toggle" class="nav-btn" title="Toggle Theme">
+                        <!-- theme icon -->
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 3V5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M12 19V21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M4.22 4.22L5.64 5.64" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M18.36 18.36L19.78 19.78" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M1 12H3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M21 12H23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M4.22 19.78L5.64 18.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M18.36 5.64L19.78 4.22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </button>
+                </div>
+        </aside>
+        <main class="main-panel">
+            <!-- top tabs (only visible for certain screens) -->
+            <div class="top-tabs" id="flow-tabs">
+                <button class="tab active" data-step="record">Upload</button>
+                <button class="tab" data-step="details">Meeting Details</button>
+                <button class="tab" data-step="generate">Generate & View</button>
+            </div>
+            <section id="home-screen" class="screen">
+                <div class="home-hero">
+                    <div class="hero-content">
+                        <h1>MeetMinute.ai</h1>
+                        <p class="subtitle">A smart AI meeting companion that turns conversations into transcripts and meeting minutes.</p>
+                        <p class="supporting">Upload recordings, add meeting details, generate organized minutes, and keep your meeting workflow simple.</p>
+                        <button id="start-btn" class="primary-btn">Start</button>
+                        <p class="disclaimer">AI-generated results may contain mistakes. Please review before sharing.</p>
+                    </div>
+                    <div class="hero-graphic">
+                        <img src="{{ url_for('static', filename='logo.png') }}" alt="MeetMinute logo">
+                    </div>
+                </div>
+            </section>
+            <section id="history-screen" class="screen hidden">
+                <div id="history-content">
+                    <!-- populated by JS -->
+                </div>
+            </section>
+            <section id="record-screen" class="screen hidden">
+                <div class="card upload-record-card">
+                    <div class="upload-area" id="upload-area">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 3V15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M9 12L12 15L15 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M20 21H4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <p>Upload a .wav file or drag audio here</p>
+                        <input type="file" id="file-input" accept="audio/*" class="hidden">
+                        <button id="upload-btn" class="secondary-btn">Upload Audio</button>
+                    </div>
+                <button id="next-from-record" class="primary-btn next-btn">Next</button>
+                <div id="record-hint" class="hint-bubble hidden">Click Next to continue</div>
+            </section>
+            <section id="details-screen" class="screen hidden">
+                <div class="card details-card">
+                    <form id="details-form">
+                        <div class="form-group">
+                            <label for="meeting-title">Meeting Title</label>
+                            <input type="text" id="meeting-title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="meeting-datetime">Date &amp; Time</label>
+                            <input type="datetime-local" id="meeting-datetime" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="attendees">Attendees</label>
+                            <input type="text" id="attendees" placeholder="Names of attendees" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="roles">Attendees & Roles</label>
+                            <input type="text" id="roles" placeholder="e.g. John (Manager), Sara (Developer)" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="facilitator">Facilitator</label>
+                            <input type="text" id="facilitator">
+                        </div>
+                        <div class="form-group">
+                            <label for="note-taker">Note Taker</label>
+                            <input type="text" id="note-taker" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="location-type">Meeting Mode</label>
+                            <select id="location-type">
+                                <option value="online">Online</option>
+                                <option value="physical">In-person</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="end-time">Meeting End Time</label>
+                            <input type="time" id="end-time" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="notes">Optional Notes</label>
+                            <textarea id="notes" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <button id="next-from-details" class="primary-btn next-btn">Next</button>
+                <div id="details-hint" class="hint-bubble hidden">Click Next to continue</div>
+            </section>
+            <section id="generate-screen" class="screen hidden">
+                <div class="card transcript-card">
+                    <div class="transcript-header">
+                        <h2>Transcript</h2>
+                        <button id="copy-transcript" class="icon-btn" title="Copy transcript">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"/>
+                                <path d="M5 15H4C2.9 15 2 14.1 2 13V4C2 2.9 2.9 2 4 2H13C14.1 2 15 2.9 15 4V5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="transcript-content example-transcript" id="transcript-content" title="This is an example transcript">
+                        <p><strong>Speaker 1:</strong> Welcome everyone to the weekly meeting...</p>
+                        <p><strong>Speaker 2:</strong> Thanks, let's get started with the agenda...</p>
+                        <p><strong>Speaker 1:</strong> First item on the list is the product roadmap...</p>
+                        <p><strong>Speaker 3:</strong> I have a question about the timeline...</p>
+                        <p><strong>Speaker 2:</strong> Good point, we will discuss that soon...</p>
+                        <p><strong>Speaker 1:</strong> Moving on, the next topic is the marketing plan...</p>
+                    </div>
+                </div>
+                <button id="generate-btn" class="primary-btn generate-btn">Generate M.M</button>
+            </section>
+            <section id="success-screen" class="screen hidden">
+                <div class="success-card">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
+                        <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <h2>Meeting Minute has been generated.</h2>
+                    <p>Your document is ready to review or download.</p>
+                    <div class="button-group">
+                        <button id="home-from-success" class="primary-btn">Home</button>
+                        <button id="another-from-success" class="secondary-btn">Another Meeting</button>
+                    </div>
+                </div>
+            </section>
+            <section id="profile-screen" class="screen hidden">
+                <div class="card details-card">
+                    <h2 style="margin-bottom: 24px;">Your Profile</h2>
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" id="profile-name">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="profile-email" disabled>
+                    </div>
+                    <button id="logout-btn" class="logout-btn">Logout</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
